@@ -77,7 +77,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   .room-label {
@@ -100,6 +100,57 @@
     text-transform: uppercase;
     color: #7a5828;
     white-space: nowrap;
+  }
+
+  /* ---- Demon Tracker ---- */
+  .demon-tracker {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    transition: opacity 0.3s;
+  }
+
+  .demon-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 0.4s;
+  }
+
+  .demon-divider {
+    flex: 1;
+    height: 1px;
+    transition: background 0.4s;
+  }
+
+  .demon-location {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 0.4s;
+  }
+
+  .demon-tracker.far .demon-label  { color: #4a3018; }
+  .demon-tracker.far .demon-divider { background: #2a1a08; }
+  .demon-tracker.far .demon-location { color: #4a3018; }
+
+  .demon-tracker.near .demon-label  { color: #7a3010; }
+  .demon-tracker.near .demon-divider { background: #5a1a06; }
+  .demon-tracker.near .demon-location { color: #aa4820; }
+
+  .demon-tracker.close .demon-label  { color: #cc3000; }
+  .demon-tracker.close .demon-divider { background: #cc3000; }
+  .demon-tracker.close .demon-location {
+    color: #ff5020;
+    animation: pulse 0.6s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { opacity: 0.6; }
+    to   { opacity: 1; }
   }
 
   .desc-box {
@@ -354,6 +405,92 @@
     background: rgba(138, 32, 16, 0.1);
     color: #cc3020;
   }
+
+  .save-notice {
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #1a1008;
+    margin-top: 10px;
+    min-height: 16px;
+    transition: color 0.8s ease;
+  }
+
+  .save-notice.visible { color: #5a3818; }
+
+  /* ---- Items Screen ---- */
+  .items-intro {
+    font-size: 14px;
+    line-height: 1.9;
+    color: #5a4020;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .items-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .item-card {
+    background: #080603;
+    border: 1px solid #1a1008;
+    padding: 14px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s;
+    font-family: Georgia, serif;
+    user-select: none;
+  }
+
+  .item-card:hover { border-color: #3a2810; background: #0e0a05; }
+
+  .item-card.selected {
+    border-color: #9a7038;
+    background: #100c06;
+  }
+
+  .item-card.locked {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .item-card.selected.locked {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .item-name {
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #c4a26a;
+    margin-bottom: 4px;
+  }
+
+  .item-hint {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #3a2810;
+  }
+
+  .item-card.selected .item-hint { color: #5a3818; }
+
+  .items-count {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #3a2810;
+    margin-bottom: 18px;
+    transition: color 0.3s;
+  }
+
+  .items-count.ready { color: #7a5828; }
 </style>
 </head>
 <body>
@@ -371,13 +508,19 @@
   <button class="action-btn" id="begin-btn">Enter the Cave</button>
 </div>
 
+<!-- Items Screen -->
+<div class="screen" id="items-screen">
+  <p class="start-eyebrow">Before you descend</p>
+  <h1 class="start-title" style="font-size:40px; letter-spacing:10px; margin-bottom:10px;">Supplies</h1>
+  <p class="start-sub" style="margin-bottom:8px;">Choose 2 items to carry</p>
+  <p class="items-intro">The cave is dangerous. Pick wisely.</p>
+  <div class="items-grid" id="items-grid"></div>
+  <p class="items-count" id="items-count">0 / 2 selected</p>
+  <button class="action-btn" id="descend-btn" style="opacity:0.3; pointer-events:none;">Descend</button>
+</div>
+
 <!-- Game Screen -->
 <div class="screen" id="game-screen">
-  <div class="room-header">
-    <span class="room-label">Location</span>
-    <div class="room-divider"></div>
-    <span class="room-name" id="room-name-el"></span>
-  </div>
   <div class="desc-box">
     <p class="desc-text" id="desc-el"></p>
   </div>
@@ -390,6 +533,7 @@
     <button class="nav-btn btn-s" id="btn-s">↓ South</button>
   </div>
   <p class="key-hint">or use arrow keys</p>
+  <p class="save-notice" id="save-notice"></p>
 </div>
 
 <!-- Win Screen -->
@@ -409,10 +553,10 @@
 
 <!-- Death Screen -->
 <div class="screen" id="death-screen">
-  <p class="death-eyebrow">Game Over</p>
-  <h1 class="death-title">Brains</h1>
-  <p class="death-sub">The zombie got you</p>
-  <p class="death-text">
+  <p class="death-eyebrow" id="death-eyebrow">Game Over</p>
+  <h1 class="death-title" id="death-title">Brains</h1>
+  <p class="death-sub" id="death-sub">The zombie got you</p>
+  <p class="death-text" id="death-text">
     A rotting shape lurches from the darkness.<br>
     Cold hands grip your shoulders. A wet, terrible sound.<br>
     Your brains are gone.
@@ -424,35 +568,117 @@
   const ROOMS = {
     start: {
       name: 'The Bottom',
-      description: 'Cold stone, damp air, total darkness. You\'re at the base of a narrow shaft. A faint draft drifts down from above — the only sign there\'s a way out.',
-      exits: { n: 'crossing' }
+      description: 'Cold stone, damp air, total darkness. You\'re at the base of a narrow shaft. A faint draft drifts down from above — the only sign there\'s a way out. A passage descends further south.',
+      exits: { n: 'crossing', s: 'descent' }
     },
     crossing: {
       name: 'The Crossing',
-      description: 'The shaft opens into a passage running east and west. The air moves more freely to the west. The shaft drops away behind you to the south.',
-      exits: { s: 'start', w: 'shaft', e: 'hollow' }
+      description: 'The shaft opens into a passage running east and west. The air moves more freely to the west. A wider tunnel continues north. The shaft drops away behind you to the south.',
+      exits: { s: 'start', w: 'shaft', e: 'hollow', n: 'gallery' }
     },
     shaft: {
       name: 'The Shaft',
-      description: 'A tall shaft cuts up through the rock. Cold outside air pours steadily from above — real air. Below is only darkness.',
-      exits: { n: 'WIN', s: 'pit', e: 'crossing' }
+      description: 'A tall shaft cuts up through the rock. Cold outside air pours steadily from above — real air. Below is only darkness. A tunnel leads west into something damp.',
+      exits: { n: 'WIN', s: 'pit', e: 'crossing', w: 'grotto' }
     },
     hollow: {
       name: 'The Hollow',
-      description: 'A small sealed chamber. Low ceiling, close walls. Old bones on the floor. Dead end.',
-      exits: { w: 'crossing' }
+      description: 'A small chamber. Low ceiling, close walls. Old bones on the floor. A passage leads north into something hotter. Stone steps descend to the south.',
+      exits: { w: 'crossing', n: 'square', s: 'crypt' }
+    },
+    square: {
+      name: 'The Square',
+      description: 'A wide, flat-ceilinged chamber — unnaturally geometric, carved with cruel purpose. Scorch marks blacken every wall. The air burns your lungs. Something enormous stands at the far end, cross-shaped, wreathed in fire, watching you with eyes like twin furnaces.',
+      exits: { s: 'hollow' }
     },
     pit: {
       name: 'The Pit',
       description: 'Something shuffles in the darkness below. A wet, rattling breath echoes off the walls. Two pale eyes catch the faint light above you. You can\'t run in time.',
       exits: {}
+    },
+    gallery: {
+      name: 'The Gallery',
+      description: 'A long, vaulted passage. The walls are covered floor to ceiling in handprints — thousands of them, pressed in red ochre. Someone was here before you. A long time before. Passages lead south and west.',
+      exits: { s: 'crossing', w: 'grotto' }
+    },
+    grotto: {
+      name: 'The Grotto',
+      description: 'A domed chamber split by a black underground pool. Something pale and blind drifts beneath the surface. The rock above is crusted with pale fungi that give off a faint, cold glow. The pool\'s edge is right in front of you. Tunnels lead east and south.',
+      exits: { e: 'gallery', s: 'shaft', n: 'pool' }
+    },
+    pool: {
+      name: 'The Pool',
+      description: 'The water is ice cold and perfectly black. You can\'t see the bottom. The pale thing you saw from the shore is gone — until something wraps around your ankle from below. It is enormous. It is patient. It has been waiting a very long time.',
+      exits: {}
+    },
+    crypt: {
+      name: 'The Crypt',
+      description: 'A low room carved into the rock below the hollow. Stone slabs line the walls — each one sealed, each one carved with the same symbol you cannot read. It is very quiet here. The only exit is north.',
+      exits: { n: 'hollow' }
+    },
+    descent: {
+      name: 'The Descent',
+      description: 'The passage opens into a vast chamber far below. At its center stands a figure — tall, motionless, armored in grey stone. The Warden. It has no face. Its chest is sealed by a single seam of pale light that pulses slowly, like a heartbeat. It has seen you.',
+      exits: { n: 'start' }
     }
   };
 
+  const ITEMS = [
+    { id: 'water-bucket',  name: 'Water Bucket',        hint: 'Quench fire' },
+    { id: 'lava-bucket',   name: 'Lava Bucket',          hint: 'Boil the pool' },
+    { id: 'file',          name: 'File',                 hint: 'Break through stone' },
+    { id: 'night-vision',  name: 'Night Vision Goggles', hint: 'See in the dark' },
+    { id: 'water-paddles', name: 'Water Paddles',        hint: 'Swim safely' },
+    { id: 'fishing-rod',   name: 'Fishing Rod',          hint: 'Lure it out' },
+    { id: 'flashlight',    name: 'Flashlight',           hint: 'Blind your enemy' },
+  ];
+
+  let inventory = new Set();
   let current = 'start';
+  let demonRoom = 'square';
+  let inputLocked = false;
+  let gameActive = false;
   let audioCtx = null;
   let windNodes = [];
   let dripTimeout = null;
+  let deathTimers = [];
+
+  function scheduleDeathTimer(fn, ms) {
+    const id = setTimeout(fn, ms);
+    deathTimers.push(id);
+    return id;
+  }
+
+  function clearDeathTimers() {
+    deathTimers.forEach(id => clearTimeout(id));
+    deathTimers = [];
+  }
+
+  const SAVE_KEY = 'thecave_save';
+
+  function saveGame(roomId) {
+    localStorage.setItem(SAVE_KEY, roomId);
+    const notice = document.getElementById('save-notice');
+    notice.textContent = '✦ checkpoint';
+    notice.classList.add('visible');
+    setTimeout(() => notice.classList.remove('visible'), 2200);
+    updateSaveButtons();
+  }
+
+  function getSave() { return localStorage.getItem(SAVE_KEY); }
+
+  function clearSave() {
+    localStorage.removeItem(SAVE_KEY);
+    updateSaveButtons();
+  }
+
+  function updateSaveButtons() {
+    const hasSave = !!getSave();
+    const contBtn = document.getElementById('continue-btn');
+    if (contBtn) contBtn.style.display = hasSave ? 'block' : 'none';
+    const retBtn = document.getElementById('return-btn');
+    if (retBtn) retBtn.style.display = hasSave ? 'block' : 'none';
+  }
 
   // ── Audio Context ──────────────────────────────────────────────
 
@@ -514,9 +740,185 @@
       src.start(time); src.stop(time + 0.5);
     }
 
-    chunk(now,        300, 1.4, 10);   // deep wet thud
-    chunk(now + 0.04, 800, 0.9,  6);   // sloppy splat
-    chunk(now + 0.12, 500, 0.6,  8);   // echo splatter
+    chunk(now,        300, 1.4, 10);
+    chunk(now + 0.04, 800, 0.9,  6);
+    chunk(now + 0.12, 500, 0.6,  8);
+  }
+
+  // ── Fire Crackle (demon close) ────────────────────────────────
+
+  function playFireCrackle(intensity) {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+    const bursts = intensity === 'caught' ? 8 : 3;
+    for (let i = 0; i < bursts; i++) {
+      const t = now + i * 0.07;
+      const len = Math.floor(ctx.sampleRate * 0.12);
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let j = 0; j < len; j++) d[j] = Math.random() * 2 - 1;
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      const hp = ctx.createBiquadFilter();
+      hp.type = 'bandpass';
+      hp.frequency.value = 600 + Math.random() * 600;
+      hp.Q.value = 0.4;
+      const gain = ctx.createGain();
+      const vol = intensity === 'caught' ? 0.55 : 0.25;
+      gain.gain.setValueAtTime(vol, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.11);
+      src.connect(hp); hp.connect(gain); gain.connect(ctx.destination);
+      src.start(t); src.stop(t + 0.13);
+    }
+  }
+
+  // ── Flame Roar (demon death) ──────────────────────────────────
+
+  function playFlameRoar() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+    const dur = 4.0;
+
+    // Three layered noise bands — low rumble, mid body, high crackle
+    [[180, 0.5], [600, 0.35], [1800, 0.2]].forEach(([freq, vol], i) => {
+      const len = Math.floor(ctx.sampleRate * dur);
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      let v = 0;
+      for (let j = 0; j < len; j++) {
+        v += (Math.random() * 2 - 1 - v) * 0.006;
+        d[j] = v * 12;
+      }
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'bandpass';
+      lp.frequency.value = freq;
+      lp.Q.value = 0.6;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(vol, now + 0.4 + i * 0.1);
+      gain.gain.setValueAtTime(vol, now + dur - 0.8);
+      gain.gain.linearRampToValueAtTime(0, now + dur);
+      src.connect(lp); lp.connect(gain); gain.connect(ctx.destination);
+      src.start(now); src.stop(now + dur);
+    });
+
+    // Rapid crackle bursts on top
+    for (let i = 0; i < 12; i++) {
+      setTimeout(() => playFireCrackle('caught'), i * 280);
+    }
+  }
+
+  // ── Warden Beam ───────────────────────────────────────────────
+
+  function playWardenBeam() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+
+    // Charging hum — low tone sweeping upward over 3.5s
+    const osc = ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(55, now);
+    osc.frequency.exponentialRampToValueAtTime(1200, now + 3.5);
+    const hGain = ctx.createGain();
+    hGain.gain.setValueAtTime(0, now);
+    hGain.gain.linearRampToValueAtTime(0.28, now + 0.6);
+    hGain.gain.setValueAtTime(0.28, now + 3.2);
+    hGain.gain.linearRampToValueAtTime(0, now + 3.5);
+    osc.connect(hGain); hGain.connect(ctx.destination);
+    osc.start(now); osc.stop(now + 3.6);
+
+    // Beam fires at 3.5s — white noise burst + tone crack
+    const fireAt = now + 3.5;
+
+    const len = Math.floor(ctx.sampleRate * 0.6);
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const nSrc = ctx.createBufferSource();
+    nSrc.buffer = buf;
+    const hp = ctx.createBiquadFilter();
+    hp.type = 'highpass';
+    hp.frequency.value = 3000;
+    const nGain = ctx.createGain();
+    nGain.gain.setValueAtTime(1.4, fireAt);
+    nGain.gain.exponentialRampToValueAtTime(0.001, fireAt + 0.5);
+    nSrc.connect(hp); hp.connect(nGain); nGain.connect(ctx.destination);
+    nSrc.start(fireAt); nSrc.stop(fireAt + 0.6);
+
+    const crack = ctx.createOscillator();
+    crack.type = 'sine';
+    crack.frequency.setValueAtTime(2400, fireAt);
+    crack.frequency.exponentialRampToValueAtTime(80, fireAt + 0.4);
+    const cGain = ctx.createGain();
+    cGain.gain.setValueAtTime(0.9, fireAt);
+    cGain.gain.exponentialRampToValueAtTime(0.001, fireAt + 0.4);
+    crack.connect(cGain); cGain.connect(ctx.destination);
+    crack.start(fireAt); crack.stop(fireAt + 0.45);
+  }
+
+  // ── Water Demon ───────────────────────────────────────────────
+
+  function playWaterDemon() {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+    const dur = 4.0;
+
+    // Deep underwater rumble — very slow filtered noise
+    const len = Math.floor(ctx.sampleRate * dur);
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    let v = 0;
+    for (let i = 0; i < len; i++) {
+      v += (Math.random() * 2 - 1 - v) * 0.003;
+      d[i] = v * 14;
+    }
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 200;
+    const rGain = ctx.createGain();
+    rGain.gain.setValueAtTime(0, now);
+    rGain.gain.linearRampToValueAtTime(0.5, now + 0.8);
+    rGain.gain.setValueAtTime(0.5, now + dur - 0.6);
+    rGain.gain.linearRampToValueAtTime(0, now + dur);
+    src.connect(lp); lp.connect(rGain); rGain.connect(ctx.destination);
+    src.start(now); src.stop(now + dur);
+
+    // Bubbling pops
+    for (let i = 0; i < 14; i++) {
+      const t = now + Math.random() * 3.0;
+      const bOsc = ctx.createOscillator();
+      bOsc.type = 'sine';
+      const freq = 300 + Math.random() * 400;
+      bOsc.frequency.setValueAtTime(freq, t);
+      bOsc.frequency.exponentialRampToValueAtTime(freq * 0.3, t + 0.12);
+      const bGain = ctx.createGain();
+      bGain.gain.setValueAtTime(0.18, t);
+      bGain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+      bOsc.connect(bGain); bGain.connect(ctx.destination);
+      bOsc.start(t); bOsc.stop(t + 0.16);
+    }
+
+    // The grab — low impact thud at ~3.5s
+    const grabAt = now + 3.4;
+    const gLen = Math.floor(ctx.sampleRate * 0.5);
+    const gBuf = ctx.createBuffer(1, gLen, ctx.sampleRate);
+    const gd = gBuf.getChannelData(0);
+    for (let i = 0; i < gLen; i++) {
+      gd[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.08));
+    }
+    const gSrc = ctx.createBufferSource();
+    gSrc.buffer = gBuf;
+    const gLp = ctx.createBiquadFilter();
+    gLp.type = 'lowpass';
+    gLp.frequency.value = 150;
+    const gGain = ctx.createGain();
+    gGain.gain.value = 1.8;
+    gSrc.connect(gLp); gLp.connect(gGain); gGain.connect(ctx.destination);
+    gSrc.start(grabAt); gSrc.stop(grabAt + 0.5);
   }
 
   // ── Ambient Wind ──────────────────────────────────────────────
@@ -526,25 +928,20 @@
     const len = ctx.sampleRate * 4;
     const buf = ctx.createBuffer(1, len, ctx.sampleRate);
     const d = buf.getChannelData(0);
-    // Heavy low-pass smoothing to get a low wind rumble
     let v = 0;
     for (let i = 0; i < len; i++) {
       v += (Math.random() * 2 - 1 - v) * 0.004;
       d[i] = v * 30;
     }
-
     const src = ctx.createBufferSource();
     src.buffer = buf;
     src.loop = true;
-
     const bp = ctx.createBiquadFilter();
     bp.type = 'bandpass';
     bp.frequency.value = 320;
     bp.Q.value = 0.5;
-
     const gain = ctx.createGain();
     gain.gain.value = 0.14;
-
     src.connect(bp); bp.connect(gain); gain.connect(ctx.destination);
     src.start();
     windNodes = [src];
@@ -561,26 +958,20 @@
     const ctx = getAudioCtx();
     const now = ctx.currentTime;
     const freq = 700 + Math.random() * 500;
-
     const osc = ctx.createOscillator();
     osc.type = 'sine';
     osc.frequency.setValueAtTime(freq, now);
     osc.frequency.exponentialRampToValueAtTime(freq * 0.28, now + 0.2);
-
     const gain = ctx.createGain();
     gain.gain.setValueAtTime(0.13, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-
     osc.connect(gain); gain.connect(ctx.destination);
     osc.start(now); osc.stop(now + 0.28);
   }
 
   function scheduleDrip() {
     const delay = 2800 + Math.random() * 5500;
-    dripTimeout = setTimeout(() => {
-      playDrip();
-      scheduleDrip();
-    }, delay);
+    dripTimeout = setTimeout(() => { playDrip(); scheduleDrip(); }, delay);
   }
 
   function startDrips() { scheduleDrip(); }
@@ -590,6 +981,101 @@
     dripTimeout = null;
   }
 
+  // ── Demon AI ──────────────────────────────────────────────────
+
+  // BFS: return the next room id demon should step into to reach target
+  function demonNextStep(from, to) {
+    if (from === to) return null;
+    const queue = [[from, null]];
+    const visited = new Set([from]);
+    while (queue.length) {
+      const [room, firstStep] = queue.shift();
+      for (const next of Object.values(ROOMS[room].exits)) {
+        if (next === 'WIN' || next === 'pit') continue;
+        if (visited.has(next)) continue;
+        visited.add(next);
+        const step = firstStep || next;
+        if (next === to) return step;
+        queue.push([next, step]);
+      }
+    }
+    return null;
+  }
+
+  // BFS: return distance from demon to player
+  function demonDistance() {
+    if (demonRoom === current) return 0;
+    const queue = [[demonRoom, 0]];
+    const visited = new Set([demonRoom]);
+    while (queue.length) {
+      const [room, dist] = queue.shift();
+      for (const next of Object.values(ROOMS[room].exits)) {
+        if (next === 'WIN' || next === 'pit') continue;
+        if (visited.has(next)) continue;
+        visited.add(next);
+        if (next === current) return dist + 1;
+        queue.push([next, dist + 1]);
+      }
+    }
+    return Infinity;
+  }
+
+  function stepDemon() {
+    const next = demonNextStep(demonRoom, current);
+    if (next) demonRoom = next;
+  }
+
+  // ── Demon Tracker UI ──────────────────────────────────────────
+
+  function updateDemonTracker() {}
+
+  // ── Death ─────────────────────────────────────────────────────
+
+  function triggerDeath(cause) {
+    if (!gameActive) return;
+    gameActive = false;
+    stopWind();
+    stopDrips();
+    if (cause === 'zombie') {
+      document.getElementById('death-eyebrow').textContent = 'Game Over';
+      document.getElementById('death-title').textContent   = 'Brains';
+      document.getElementById('death-sub').textContent     = 'The zombie got you';
+      document.getElementById('death-text').innerHTML =
+        'A rotting shape lurches from the darkness.<br>' +
+        'Cold hands grip your shoulders. A wet, terrible sound.<br>' +
+        'Your brains are gone.';
+    } else if (cause === 'demon') {
+      document.getElementById('death-eyebrow').textContent = 'Game Over';
+      document.getElementById('death-title').textContent   = 'Consumed';
+      document.getElementById('death-sub').textContent     = 'The fire demon got you';
+      document.getElementById('death-text').innerHTML =
+        'Claws of fire close around you.<br>' +
+        'The demon hurls you screaming into the darkness below.<br>' +
+        'You land hard — and when you look up,<br>' +
+        'two pale eyes are already watching.<br><br>' +
+        'The zombie finishes what the demon started.';
+    } else if (cause === 'warden') {
+      document.getElementById('death-eyebrow').textContent = 'Game Over';
+      document.getElementById('death-title').textContent   = 'Vaporized';
+      document.getElementById('death-sub').textContent     = 'The Warden got you';
+      document.getElementById('death-text').innerHTML =
+        'A low hum fills the chamber.<br>' +
+        'The seam in its chest splits open — pale light floods the room.<br>' +
+        'The beam finds you before you can move.<br><br>' +
+        'There is nothing left.';
+    } else {
+      document.getElementById('death-eyebrow').textContent = 'Game Over';
+      document.getElementById('death-title').textContent   = 'Submerged';
+      document.getElementById('death-sub').textContent     = 'The water demon got you';
+      document.getElementById('death-text').innerHTML =
+        'The cold closes over your head.<br>' +
+        'Something enormous coils around you in the dark.<br>' +
+        'It pulls you down slowly — no rush.<br><br>' +
+        'You don\'t come back up.';
+    }
+    showScreen('death-screen');
+  }
+
   // ── Screens ───────────────────────────────────────────────────
 
   function showScreen(id) {
@@ -597,21 +1083,66 @@
     document.getElementById(id).classList.add('active');
   }
 
+  // ── Item Screen ───────────────────────────────────────────────
+
+  function buildItemsScreen() {
+    const grid = document.getElementById('items-grid');
+    grid.innerHTML = '';
+    ITEMS.forEach(item => {
+      const card = document.createElement('button');
+      card.className = 'item-card';
+      card.dataset.id = item.id;
+      card.innerHTML = `<div class="item-name">${item.name}</div>`;
+      card.addEventListener('click', () => {
+        if (inventory.has(item.id)) {
+          inventory.delete(item.id);
+          card.classList.remove('selected');
+        } else {
+          if (inventory.size >= 2) return;
+          inventory.add(item.id);
+          card.classList.add('selected');
+        }
+        updateItemsUI();
+      });
+      grid.appendChild(card);
+    });
+    updateItemsUI();
+  }
+
+  function updateItemsUI() {
+    const n = inventory.size;
+    const countEl = document.getElementById('items-count');
+    const btn = document.getElementById('descend-btn');
+    countEl.textContent = `${n} / 2 selected`;
+    countEl.classList.toggle('ready', n === 2);
+    btn.style.opacity = n === 2 ? '1' : '0.3';
+    btn.style.pointerEvents = n === 2 ? 'auto' : 'none';
+    document.querySelectorAll('.item-card').forEach(card => {
+      const sel = inventory.has(card.dataset.id);
+      card.classList.toggle('locked', !sel && n >= 2);
+    });
+  }
+
   // ── Room Loading ──────────────────────────────────────────────
 
   function loadRoom(id, animate) {
-    const room = ROOMS[id];
-    const nameEl = document.getElementById('room-name-el');
+    const room   = ROOMS[id];
     const descEl = document.getElementById('desc-el');
 
     const apply = () => {
-      nameEl.textContent = room.name;
-      descEl.textContent = room.description;
+      if (id === 'crypt' && inventory.has('file')) {
+        descEl.textContent = room.description + ' One slab on the east wall is thinner than the rest — and the mortar crumbles at a touch. Your file might work.';
+      } else {
+        descEl.textContent = room.description;
+      }
       descEl.classList.remove('fading');
       ['n', 's', 'e', 'w'].forEach(dir => {
         const btn = document.getElementById('btn-' + dir);
         btn.classList.toggle('hidden', !room.exits[dir]);
       });
+      if (id === 'crypt' && inventory.has('file')) {
+        document.getElementById('btn-e').classList.remove('hidden');
+      }
     };
 
     if (animate) {
@@ -620,46 +1151,154 @@
     } else {
       apply();
     }
+
+    if (id === 'crossing') saveGame('crossing');
   }
 
   // ── Movement ──────────────────────────────────────────────────
 
   function move(dir) {
+    if (inputLocked) return;
+
+    // ── CRYPT FILE ESCAPE ──
+    if (current === 'crypt' && dir === 'e' && inventory.has('file')) {
+      inputLocked = true;
+      playFootstep();
+      setTimeout(() => { stopWind(); stopDrips(); clearSave(); showScreen('win-screen'); inputLocked = false; }, 400);
+      return;
+    }
+
     const dest = ROOMS[current].exits[dir];
     if (!dest) return;
+
+    inputLocked = true;
     playFootstep();
 
+    // ── WIN ──
     if (dest === 'WIN') {
       setTimeout(() => {
-        stopWind();
-        stopDrips();
+        stopWind(); stopDrips();
+        clearSave();
         showScreen('win-screen');
+        inputLocked = false;
       }, 400);
       return;
     }
 
-    if (dest === 'pit') {
-      // Immediately update text — don't rely on animated room load
-      const nameEl = document.getElementById('room-name-el');
+    // ── POOL (water demon — 15 second wait) ──
+    if (dest === 'pool') {
+      current = 'pool';
       const descEl = document.getElementById('desc-el');
-      current = 'pit';
-      nameEl.textContent = ROOMS.pit.name;
       descEl.classList.add('fading');
-      setTimeout(() => {
-        descEl.textContent = ROOMS.pit.description;
+      if (inventory.has('lava-bucket') || inventory.has('water-paddles') || inventory.has('fishing-rod')) {
+        let txt;
+        if (inventory.has('lava-bucket')) {
+          txt = 'You pour the lava bucket into the pool. The water erupts in a column of steam. The demon surfaces — then goes still. The pool turns grey and silent.';
+        } else if (inventory.has('water-paddles')) {
+          txt = 'You strap on the paddles and push through the water. The demon coils below but can\'t get a grip. You reach the far side and drag yourself back to shore, heart hammering.';
+        } else {
+          txt = 'You cast the fishing rod into the black water. Something enormous surges up and takes the hook — yanking itself into the shallows where it thrashes helplessly. You give it a wide berth and back toward shore.';
+        }
+        scheduleDeathTimer(() => {
+          descEl.textContent = txt;
+          descEl.classList.remove('fading');
+          ROOMS.pool.exits.s = 'grotto';
+          document.getElementById('btn-s').classList.remove('hidden');
+          inputLocked = false;
+        }, 280);
+        return;
+      }
+      scheduleDeathTimer(() => {
+        descEl.textContent = ROOMS.pool.description;
         descEl.classList.remove('fading');
-        ['n','s','e','w'].forEach(d =>
-          document.getElementById('btn-' + d).classList.add('hidden')
-        );
+        document.querySelector('.compass-label').style.visibility = 'hidden';
+        document.querySelector('.compass').style.visibility = 'hidden';
+        document.querySelector('.key-hint').style.visibility = 'hidden';
       }, 280);
-      // Sploosh then red screen
-      setTimeout(() => playSploosh(), 900);
-      setTimeout(() => showScreen('death-screen'), 1100);
+      scheduleDeathTimer(() => playWaterDemon(), 11000);
+      scheduleDeathTimer(() => { triggerDeath('water'); inputLocked = false; }, 15000);
       return;
     }
 
+    // ── SQUARE (fire demon — 15 second wait) ──
+    if (dest === 'square') {
+      current = 'square';
+      const descEl = document.getElementById('desc-el');
+      descEl.classList.add('fading');
+      if (inventory.has('water-bucket')) {
+        scheduleDeathTimer(() => {
+          descEl.textContent = 'You hurl the water bucket at the demon. The fire dies with a sound like a thunderclap. The creature collapses into a heap of smoking ash. The air clears. You can breathe again.';
+          descEl.classList.remove('fading');
+          document.getElementById('btn-s').classList.remove('hidden');
+          inputLocked = false;
+        }, 280);
+        return;
+      }
+      scheduleDeathTimer(() => {
+        descEl.textContent = ROOMS.square.description;
+        descEl.classList.remove('fading');
+        document.querySelector('.compass-label').style.visibility = 'hidden';
+        document.querySelector('.compass').style.visibility = 'hidden';
+        document.querySelector('.key-hint').style.visibility = 'hidden';
+      }, 280);
+      scheduleDeathTimer(() => playFlameRoar(), 10500);
+      scheduleDeathTimer(() => { triggerDeath('demon'); inputLocked = false; }, 15000);
+      return;
+    }
+
+    // ── DESCENT (The Warden — 15 second wait) ──
+    if (dest === 'descent') {
+      current = 'descent';
+      const descEl = document.getElementById('desc-el');
+      descEl.classList.add('fading');
+      if (inventory.has('night-vision') || inventory.has('flashlight')) {
+        let txt;
+        if (inventory.has('night-vision')) {
+          txt = 'The goggles flood the chamber in cold green light. You see the seam in the Warden\'s chest split a half-second before it fires. You dive behind a column. The beam scorches the rock where you stood. The Warden recharges — and you sprint north.';
+        } else {
+          txt = 'You switch the flashlight on full, aimed straight at the Warden. It recoils — the pale eyes shutting against the light, the chest-seam turning away. You back toward the north passage and run.';
+        }
+        scheduleDeathTimer(() => {
+          descEl.textContent = txt;
+          descEl.classList.remove('fading');
+          document.getElementById('btn-n').classList.remove('hidden');
+          inputLocked = false;
+        }, 280);
+        return;
+      }
+      scheduleDeathTimer(() => {
+        descEl.textContent = ROOMS.descent.description;
+        descEl.classList.remove('fading');
+        document.querySelector('.compass-label').style.visibility = 'hidden';
+        document.querySelector('.compass').style.visibility = 'hidden';
+        document.querySelector('.key-hint').style.visibility = 'hidden';
+      }, 280);
+      scheduleDeathTimer(() => playWardenBeam(), 11500);
+      scheduleDeathTimer(() => { triggerDeath('warden'); inputLocked = false; }, 15000);
+      return;
+    }
+
+    // ── PIT (zombie — 15 second wait) ──
+    if (dest === 'pit') {
+      current = 'pit';
+      const descEl = document.getElementById('desc-el');
+      descEl.classList.add('fading');
+      scheduleDeathTimer(() => {
+        descEl.textContent = ROOMS.pit.description;
+        descEl.classList.remove('fading');
+        document.querySelector('.compass-label').style.visibility = 'hidden';
+        document.querySelector('.compass').style.visibility = 'hidden';
+        document.querySelector('.key-hint').style.visibility = 'hidden';
+      }, 280);
+      scheduleDeathTimer(() => playSploosh(), 14000);
+      scheduleDeathTimer(() => { triggerDeath('zombie'); inputLocked = false; }, 15000);
+      return;
+    }
+
+    // ── Normal move ──
     current = dest;
     loadRoom(current, true);
+    setTimeout(() => { inputLocked = false; }, 320);
   }
 
   // ── Button & Key Handlers ─────────────────────────────────────
@@ -677,25 +1316,50 @@
     if (e.key === 'ArrowRight') move('e');
   });
 
-  document.getElementById('begin-btn').addEventListener('click', () => {
-    current = 'start';
+  function startGame(fromRoom) {
+    clearDeathTimers();
+    gameActive  = true;
+    current     = fromRoom || 'start';
+    demonRoom   = 'square';
+    inputLocked = false;
+    document.querySelector('.compass-label').style.visibility = 'visible';
+    document.querySelector('.compass').style.visibility = 'visible';
+    document.querySelector('.key-hint').style.visibility = 'visible';
     loadRoom(current, false);
+    updateDemonTracker();
     showScreen('game-screen');
     startWind();
     startDrips();
+  }
+
+  document.getElementById('begin-btn').addEventListener('click', () => {
+    inventory.clear();
+    ROOMS.pool.exits.s = undefined;
+    buildItemsScreen();
+    showScreen('items-screen');
   });
+
+  document.getElementById('descend-btn').addEventListener('click', () => startGame());
 
   document.getElementById('play-again-btn').addEventListener('click', () => {
-    stopWind();
-    stopDrips();
+    gameActive = false;
+    clearDeathTimers(); clearSave();
+    stopWind(); stopDrips();
+    ROOMS.pool.exits.s = undefined;
     showScreen('start-screen');
   });
 
-  document.getElementById('restart-btn').addEventListener('click', () => {
-    stopWind();
-    stopDrips();
+document.getElementById('restart-btn').addEventListener('click', () => {
+    gameActive = false;
+    clearDeathTimers();
+    stopWind(); stopDrips();
+    ROOMS.pool.exits.s = undefined;
     showScreen('start-screen');
   });
+
+  // Clear save on win; init button visibility on load
+  document.getElementById('play-again-btn').addEventListener('click', clearSave);
+  updateSaveButtons();
 </script>
 </body>
 </html>
