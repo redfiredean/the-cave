@@ -37,7 +37,7 @@
     font-size: 10px;
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: #3a2810;
+    color: #8a6030;
     text-align: center;
     margin-bottom: 18px;
   }
@@ -56,15 +56,15 @@
     font-size: 11px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: #2e1e08;
+    color: #7a5228;
     text-align: center;
     margin-bottom: 52px;
   }
 
   .start-intro {
-    font-size: 16px;
-    line-height: 1.95;
-    color: #7a6040;
+    font-size: 17px;
+    line-height: 2.1;
+    color: #9a7848;
     text-align: center;
     border-top: 1px solid #181008;
     border-bottom: 1px solid #181008;
@@ -133,9 +133,9 @@
     transition: color 0.4s;
   }
 
-  .demon-tracker.far .demon-label  { color: #4a3018; }
-  .demon-tracker.far .demon-divider { background: #2a1a08; }
-  .demon-tracker.far .demon-location { color: #4a3018; }
+  .demon-tracker.far .demon-label  { color: #6a4828; }
+  .demon-tracker.far .demon-divider { background: #3a2410; }
+  .demon-tracker.far .demon-location { color: #6a4828; }
 
   .demon-tracker.near .demon-label  { color: #7a3010; }
   .demon-tracker.near .demon-divider { background: #5a1a06; }
@@ -165,9 +165,9 @@
   }
 
   .desc-text {
-    font-size: 16px;
-    line-height: 1.95;
-    color: #c4a26a;
+    font-size: 18px;
+    line-height: 2.1;
+    color: #dfc088;
     transition: opacity 0.28s ease;
   }
 
@@ -179,7 +179,7 @@
     font-size: 9px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: #2e1e08;
+    color: #5a3a18;
     margin-bottom: 10px;
   }
 
@@ -225,7 +225,7 @@
   .nav-center {
     grid-column: 2; grid-row: 2;
     display: flex; align-items: center; justify-content: center;
-    color: #221608;
+    color: #4a3018;
     font-size: 16px;
     pointer-events: none;
   }
@@ -240,7 +240,7 @@
     font-size: 9px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #221608;
+    color: #4a3018;
   }
 
   /* ---- Win Screen ---- */
@@ -419,11 +419,41 @@
 
   .save-notice.visible { color: #5a3818; }
 
+  /* ---- Companion Tracker ---- */
+  .companion-tracker {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .companion-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #2a4a3a;
+    white-space: nowrap;
+  }
+
+  .companion-divider {
+    flex: 1;
+    height: 1px;
+    background: #1a3028;
+  }
+
+  .companion-name {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #3a7058;
+    white-space: nowrap;
+  }
+
   /* ---- Items Screen ---- */
   .items-intro {
     font-size: 14px;
     line-height: 1.9;
-    color: #5a4020;
+    color: #8a6030;
     text-align: center;
     margin-bottom: 28px;
   }
@@ -491,6 +521,137 @@
   }
 
   .items-count.ready { color: #7a5828; }
+
+/* ---- Inventory Display ---- */
+#inventory-display {
+  position: fixed;
+  bottom: 14px;
+  left: 14px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+.inv-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #3a2410;
+  margin-bottom: 2px;
+  font-family: Georgia, serif;
+}
+.inv-item {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #5a3c18;
+  font-family: Georgia, serif;
+  line-height: 1.5;
+}
+.inv-item.bonus { color: #9a7038; }
+
+.familiar-notice {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: transparent;
+  margin-bottom: 8px;
+  min-height: 14px;
+  text-align: right;
+  transition: color 0.6s;
+}
+.familiar-notice.visible { color: #3a2810; }
+
+/* ---- Mini Map ---- */
+#minimap-display {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  pointer-events: none;
+}
+.minimap-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #2a4a3a;
+  font-family: Georgia, serif;
+}
+#minimap-canvas {
+  border: 1px solid #1a2a20;
+  background: rgba(4, 8, 6, 0.9);
+}
+
+.death-hint {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #4a1010;
+  font-style: italic;
+  text-align: center;
+  max-width: 460px;
+  margin-bottom: 30px;
+}
+
+/* ---- Timing Bar ---- */
+#timing-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(4, 3, 2, 0.97);
+  border-top: 1px solid #2a1808;
+  padding: 14px 20px 18px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 100;
+}
+.timing-prompt {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #9a7038;
+  font-family: Georgia, serif;
+}
+.timing-track {
+  width: 300px;
+  height: 22px;
+  background: #080603;
+  border: 1px solid #2a1808;
+  position: relative;
+  overflow: hidden;
+}
+.timing-zone {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 40%; width: 20%;
+  background: rgba(154, 112, 56, 0.18);
+  border-left: 1px solid rgba(154, 112, 56, 0.5);
+  border-right: 1px solid rgba(154, 112, 56, 0.5);
+  display: flex; align-items: center; justify-content: center;
+}
+.timing-zone-label {
+  font-size: 7px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #9a7038;
+  font-family: Georgia, serif;
+}
+.timing-dot {
+  position: absolute;
+  top: 3px; bottom: 3px;
+  width: 10px;
+  background: #d4a850;
+  box-shadow: 0 0 6px rgba(212, 168, 80, 0.6);
+}
+.timing-sub {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #3a2810;
+  font-family: Georgia, serif;
+}
 </style>
 </head>
 <body>
@@ -521,8 +682,14 @@
 
 <!-- Game Screen -->
 <div class="screen" id="game-screen">
+  <p class="familiar-notice" id="familiar-notice"></p>
   <div class="desc-box">
     <p class="desc-text" id="desc-el"></p>
+  </div>
+  <div class="companion-tracker" id="companion-tracker" style="display:none;">
+    <span class="companion-label">✦ Companion</span>
+    <div class="companion-divider"></div>
+    <span class="companion-name" id="companion-name">Stays close behind you</span>
   </div>
   <p class="compass-label">Navigate</p>
   <div class="compass">
@@ -561,7 +728,30 @@
     Cold hands grip your shoulders. A wet, terrible sound.<br>
     Your brains are gone.
   </p>
+  <p class="death-hint" id="death-hint"></p>
   <button class="action-btn blood" id="restart-btn">Start Over</button>
+</div>
+
+<!-- Inventory Display -->
+<div id="inventory-display">
+  <p class="inv-label">Carrying</p>
+  <div id="inv-list"></div>
+</div>
+
+<!-- Mini Map -->
+<div id="minimap-display">
+  <p class="minimap-label">Map</p>
+  <canvas id="minimap-canvas" width="78" height="94"></canvas>
+</div>
+
+<!-- Timing Bar -->
+<div id="timing-bar">
+  <p class="timing-prompt" id="timing-prompt">Prepare to strike</p>
+  <div class="timing-track" id="timing-track">
+    <div class="timing-zone"><span class="timing-zone-label">Attack</span></div>
+    <div class="timing-dot" id="timing-dot"></div>
+  </div>
+  <p class="timing-sub">Press SPACE or tap the bar to strike</p>
 </div>
 
 <script>
@@ -629,11 +819,12 @@
     { id: 'file',          name: 'File',                 hint: 'Break through stone' },
     { id: 'night-vision',  name: 'Night Vision Goggles', hint: 'See in the dark' },
     { id: 'water-paddles', name: 'Water Paddles',        hint: 'Swim safely' },
-    { id: 'fishing-rod',   name: 'Fishing Rod',          hint: 'Lure it out' },
+    { id: 'health-potion', name: 'Health Potion',         hint: 'Restore the lost' },
     { id: 'flashlight',    name: 'Flashlight',           hint: 'Blind your enemy' },
   ];
 
   let inventory = new Set();
+  let hasCompanion = false;
   let current = 'start';
   let demonRoom = 'square';
   let inputLocked = false;
@@ -642,6 +833,16 @@
   let windNodes = [];
   let dripTimeout = null;
   let deathTimers = [];
+  let bonusInventory = new Set();
+  let bonusItemNames = {};
+  let visitedRooms = new Set();
+  let timingActive = false;
+  let timingPos = 0;
+  let timingDir = 1;
+  let timingRAF = null;
+  let timingOnSuccess = null;
+  let timingOnFail = null;
+  let timingTimeout = null;
 
   function scheduleDeathTimer(fn, ms) {
     const id = setTimeout(fn, ms);
@@ -652,6 +853,121 @@
   function clearDeathTimers() {
     deathTimers.forEach(id => clearTimeout(id));
     deathTimers = [];
+  }
+
+  // ── Inventory Display ─────────────────────────────────────────
+
+  function updateInventoryDisplay() {
+    const el = document.getElementById('inventory-display');
+    const list = document.getElementById('inv-list');
+    list.innerHTML = '';
+    inventory.forEach(id => {
+      const item = ITEMS.find(i => i.id === id);
+      if (item) {
+        const p = document.createElement('p');
+        p.className = 'inv-item';
+        p.textContent = '· ' + item.name;
+        list.appendChild(p);
+      }
+    });
+    bonusInventory.forEach(id => {
+      const p = document.createElement('p');
+      p.className = 'inv-item bonus';
+      p.textContent = '✦ ' + bonusItemNames[id];
+      list.appendChild(p);
+    });
+    el.style.display = inventory.size > 0 ? 'flex' : 'none';
+  }
+
+  // ── Mini Map ──────────────────────────────────────────────────
+
+  const ROOM_POS = {
+    pool:     [1, 0], grotto:   [1, 1], gallery:  [2, 1],
+    shaft:    [1, 2], crossing: [2, 2], hollow:   [3, 2],
+    square:   [3, 1], pit:      [1, 3], start:    [2, 3],
+    crypt:    [3, 3], descent:  [2, 4]
+  };
+  const MAP_EDGES = [
+    ['pool','grotto'],['grotto','gallery'],['grotto','shaft'],
+    ['gallery','crossing'],['shaft','crossing'],['shaft','pit'],
+    ['crossing','hollow'],['crossing','start'],['hollow','square'],
+    ['hollow','crypt'],['start','descent']
+  ];
+
+  function drawMiniMap() {
+    const display = document.getElementById('minimap-display');
+    if (!inventory.has('night-vision')) { display.style.display = 'none'; return; }
+    display.style.display = 'flex';
+    const canvas = document.getElementById('minimap-canvas');
+    const ctx = canvas.getContext('2d');
+    const unit = 17, pad = 10;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    MAP_EDGES.forEach(([a, b]) => {
+      if (!visitedRooms.has(a) || !visitedRooms.has(b)) return;
+      const [ax, ay] = ROOM_POS[a], [bx, by] = ROOM_POS[b];
+      ctx.strokeStyle = '#1e3028'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad + ax * unit, pad + ay * unit);
+      ctx.lineTo(pad + bx * unit, pad + by * unit);
+      ctx.stroke();
+    });
+    Object.entries(ROOM_POS).forEach(([id, [x, y]]) => {
+      if (!visitedRooms.has(id)) return;
+      const cx = pad + x * unit, cy = pad + y * unit;
+      ctx.beginPath();
+      if (id === current) {
+        ctx.fillStyle = '#c4903a';
+        ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+      } else {
+        ctx.fillStyle = '#2a4030';
+        ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
+      }
+      ctx.fill();
+    });
+  }
+
+  // ── Timing Bar ────────────────────────────────────────────────
+
+  function startTimingBar(speed, onSuccess, onFail) {
+    timingActive = true;
+    timingPos = 0;
+    timingDir = 1;
+    timingOnSuccess = onSuccess;
+    timingOnFail = onFail;
+    const bar = document.getElementById('timing-bar');
+    bar.style.display = 'flex';
+    const dot = document.getElementById('timing-dot');
+    const trackW = 300 - 10;
+    let last = null;
+    function animate(ts) {
+      if (!timingActive) return;
+      if (last !== null) {
+        const dt = ts - last;
+        timingPos += timingDir * speed * dt;
+        if (timingPos >= 1) { timingPos = 1; timingDir = -1; }
+        if (timingPos <= 0) { timingPos = 0; timingDir = 1; }
+      }
+      last = ts;
+      dot.style.left = (timingPos * trackW) + 'px';
+      timingRAF = requestAnimationFrame(animate);
+    }
+    timingRAF = requestAnimationFrame(animate);
+    timingTimeout = setTimeout(() => { if (timingActive) resolveTimingBar(false); }, 9000);
+  }
+
+  function stopTimingBar() {
+    timingActive = false;
+    if (timingRAF) { cancelAnimationFrame(timingRAF); timingRAF = null; }
+    if (timingTimeout) { clearTimeout(timingTimeout); timingTimeout = null; }
+    document.getElementById('timing-bar').style.display = 'none';
+  }
+
+  function resolveTimingBar(fromInput) {
+    if (!timingActive) return;
+    const hit = fromInput && timingPos >= 0.38 && timingPos <= 0.62;
+    stopTimingBar();
+    if (hit) { timingOnSuccess(); }
+    else { timingOnFail(); }
   }
 
   const SAVE_KEY = 'thecave_save';
@@ -1073,6 +1389,13 @@
         'It pulls you down slowly — no rush.<br><br>' +
         'You don\'t come back up.';
     }
+    const hints = {
+      zombie: 'Just before the end, you noticed scratches on the pit wall — a crude figure pouring something from a bottle onto a shambling shape.',
+      demon:  'In your final moments, you glimpsed carvings above the chamber entrance — a figure hurling a bucket of water at a burning giant.',
+      warden: 'As the light took you, you saw symbols burned into the floor — a pair of goggles. Something to pierce the dark. Something to see it coming.',
+      water:  'Sinking, you made out etchings around the pool\'s edge — a lava bucket, a pair of paddles, a fishing line. The old ones knew.'
+    };
+    document.getElementById('death-hint').textContent = hints[cause] || '';
     showScreen('death-screen');
   }
 
@@ -1143,6 +1466,17 @@
       if (id === 'crypt' && inventory.has('file')) {
         document.getElementById('btn-e').classList.remove('hidden');
       }
+      const famEl = document.getElementById('familiar-notice');
+      const deathRooms = ['pit','square','descent','pool'];
+      if (visitedRooms.has(id) && !deathRooms.includes(id)) {
+        famEl.textContent = 'This area seems familiar';
+        famEl.classList.add('visible');
+      } else {
+        famEl.textContent = '';
+        famEl.classList.remove('visible');
+      }
+      visitedRooms.add(id);
+      drawMiniMap();
     };
 
     if (animate) {
@@ -1191,20 +1525,26 @@
       const descEl = document.getElementById('desc-el');
       descEl.classList.add('fading');
       if (inventory.has('lava-bucket') || inventory.has('water-paddles') || inventory.has('fishing-rod')) {
-        let txt;
-        if (inventory.has('lava-bucket')) {
-          txt = 'You pour the lava bucket into the pool. The water erupts in a column of steam. The demon surfaces — then goes still. The pool turns grey and silent.';
-        } else if (inventory.has('water-paddles')) {
-          txt = 'You strap on the paddles and push through the water. The demon coils below but can\'t get a grip. You reach the far side and drag yourself back to shore, heart hammering.';
-        } else {
-          txt = 'You cast the fishing rod into the black water. Something enormous surges up and takes the hook — yanking itself into the shallows where it thrashes helplessly. You give it a wide berth and back toward shore.';
-        }
         scheduleDeathTimer(() => {
-          descEl.textContent = txt;
+          descEl.textContent = ROOMS.pool.description;
           descEl.classList.remove('fading');
-          ROOMS.pool.exits.s = 'grotto';
-          document.getElementById('btn-s').classList.remove('hidden');
-          inputLocked = false;
+          document.getElementById('timing-prompt').textContent = 'Use your item — strike now';
+          startTimingBar(0.0032, () => {
+            let txt;
+            if (inventory.has('lava-bucket')) txt = 'You pour the lava bucket into the pool. The water erupts in a column of steam. The demon surfaces — then goes still. The pool turns grey and silent.';
+            else if (inventory.has('water-paddles')) txt = 'You strap on the paddles and push through the water. The demon coils below but can\'t get a grip. You make it back to shore.';
+            else txt = 'You cast the fishing rod into the black water. Something enormous surges up and takes the hook — yanking itself into the shallows where it thrashes helplessly.';
+            descEl.classList.add('fading');
+            setTimeout(() => {
+              descEl.textContent = txt;
+              descEl.classList.remove('fading');
+              bonusInventory.add('deep-pearl'); bonusItemNames['deep-pearl'] = 'Deep Pearl';
+              updateInventoryDisplay();
+              ROOMS.pool.exits.s = 'grotto';
+              document.getElementById('btn-s').classList.remove('hidden');
+              inputLocked = false;
+            }, 300);
+          }, () => { triggerDeath('water'); inputLocked = false; });
         }, 280);
         return;
       }
@@ -1227,10 +1567,20 @@
       descEl.classList.add('fading');
       if (inventory.has('water-bucket')) {
         scheduleDeathTimer(() => {
-          descEl.textContent = 'You hurl the water bucket at the demon. The fire dies with a sound like a thunderclap. The creature collapses into a heap of smoking ash. The air clears. You can breathe again.';
+          descEl.textContent = ROOMS.square.description;
           descEl.classList.remove('fading');
-          document.getElementById('btn-s').classList.remove('hidden');
-          inputLocked = false;
+          document.getElementById('timing-prompt').textContent = 'Hurl the bucket — now or never';
+          startTimingBar(0.0028, () => {
+            descEl.classList.add('fading');
+            setTimeout(() => {
+              descEl.textContent = 'You hurl the water bucket at the demon. The fire dies with a sound like a thunderclap. The creature collapses into a heap of smoking ash. The air clears.';
+              descEl.classList.remove('fading');
+              bonusInventory.add('ember-claw'); bonusItemNames['ember-claw'] = 'Ember Claw';
+              updateInventoryDisplay();
+              document.getElementById('btn-s').classList.remove('hidden');
+              inputLocked = false;
+            }, 300);
+          }, () => { triggerDeath('demon'); inputLocked = false; });
         }, 280);
         return;
       }
@@ -1252,17 +1602,24 @@
       const descEl = document.getElementById('desc-el');
       descEl.classList.add('fading');
       if (inventory.has('night-vision') || inventory.has('flashlight')) {
-        let txt;
-        if (inventory.has('night-vision')) {
-          txt = 'The goggles flood the chamber in cold green light. You see the seam in the Warden\'s chest split a half-second before it fires. You dive behind a column. The beam scorches the rock where you stood. The Warden recharges — and you sprint north.';
-        } else {
-          txt = 'You switch the flashlight on full, aimed straight at the Warden. It recoils — the pale eyes shutting against the light, the chest-seam turning away. You back toward the north passage and run.';
-        }
         scheduleDeathTimer(() => {
-          descEl.textContent = txt;
+          descEl.textContent = ROOMS.descent.description;
           descEl.classList.remove('fading');
-          document.getElementById('btn-n').classList.remove('hidden');
-          inputLocked = false;
+          document.getElementById('timing-prompt').textContent = 'Dodge the beam — move';
+          startTimingBar(0.0038, () => {
+            let txt;
+            if (inventory.has('night-vision')) txt = 'The goggles light up the dark. You see the seam split a half-second before it fires. You dive behind a column. The beam scorches rock. You sprint north.';
+            else txt = 'You shine the flashlight at the Warden. It recoils — pale eyes shut, chest-seam turning away. You sprint north before it recovers.';
+            descEl.classList.add('fading');
+            setTimeout(() => {
+              descEl.textContent = txt;
+              descEl.classList.remove('fading');
+              bonusInventory.add('chest-shard'); bonusItemNames['chest-shard'] = 'Chest Shard';
+              updateInventoryDisplay();
+              document.getElementById('btn-n').classList.remove('hidden');
+              inputLocked = false;
+            }, 300);
+          }, () => { triggerDeath('warden'); inputLocked = false; });
         }, 280);
         return;
       }
@@ -1283,6 +1640,26 @@
       current = 'pit';
       const descEl = document.getElementById('desc-el');
       descEl.classList.add('fading');
+      if (inventory.has('health-potion')) {
+        scheduleDeathTimer(() => {
+          descEl.textContent = ROOMS.pit.description;
+          descEl.classList.remove('fading');
+          document.getElementById('timing-prompt').textContent = 'Pour the potion — do it now';
+          startTimingBar(0.0025, () => {
+            descEl.classList.add('fading');
+            setTimeout(() => {
+              descEl.textContent = 'You uncork the potion and hurl it at the shape in the dark. The rot pulls back. The eyes clear. A man stands in the pit, blinking. He follows you up.';
+              descEl.classList.remove('fading');
+              hasCompanion = true;
+              document.getElementById('companion-tracker').style.display = 'flex';
+              ROOMS.pit.exits.n = 'shaft';
+              document.getElementById('btn-n').classList.remove('hidden');
+              inputLocked = false;
+            }, 300);
+          }, () => { triggerDeath('zombie'); inputLocked = false; });
+        }, 280);
+        return;
+      }
       scheduleDeathTimer(() => {
         descEl.textContent = ROOMS.pit.description;
         descEl.classList.remove('fading');
@@ -1316,17 +1693,36 @@
     if (e.key === 'ArrowRight') move('e');
   });
 
+  document.addEventListener('keydown', e => {
+    if ((e.key === ' ' || e.code === 'Space') && timingActive) {
+      e.preventDefault();
+      resolveTimingBar(true);
+    }
+  });
+  document.getElementById('timing-track').addEventListener('click', () => {
+    if (timingActive) resolveTimingBar(true);
+  });
+
   function startGame(fromRoom) {
     clearDeathTimers();
+    stopTimingBar();
     gameActive  = true;
+    hasCompanion = false;
+    bonusInventory.clear();
+    bonusItemNames = {};
+    visitedRooms.clear();
     current     = fromRoom || 'start';
     demonRoom   = 'square';
     inputLocked = false;
+    ROOMS.pit.exits.n = undefined;
+    ROOMS.pool.exits.s = undefined;
+    document.getElementById('companion-tracker').style.display = 'none';
     document.querySelector('.compass-label').style.visibility = 'visible';
     document.querySelector('.compass').style.visibility = 'visible';
     document.querySelector('.key-hint').style.visibility = 'visible';
     loadRoom(current, false);
     updateDemonTracker();
+    updateInventoryDisplay();
     showScreen('game-screen');
     startWind();
     startDrips();
@@ -1346,14 +1742,18 @@
     clearDeathTimers(); clearSave();
     stopWind(); stopDrips();
     ROOMS.pool.exits.s = undefined;
+    ROOMS.pit.exits.n = undefined;
+    document.getElementById('inventory-display').style.display = 'none';
     showScreen('start-screen');
   });
 
-document.getElementById('restart-btn').addEventListener('click', () => {
+  document.getElementById('restart-btn').addEventListener('click', () => {
     gameActive = false;
     clearDeathTimers();
     stopWind(); stopDrips();
     ROOMS.pool.exits.s = undefined;
+    ROOMS.pit.exits.n = undefined;
+    document.getElementById('inventory-display').style.display = 'none';
     showScreen('start-screen');
   });
 
