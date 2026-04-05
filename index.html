@@ -34,10 +34,10 @@
 
   /* ---- Start Screen ---- */
   .start-eyebrow {
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: #8a6030;
+    color: #a07840;
     text-align: center;
     margin-bottom: 18px;
   }
@@ -53,10 +53,10 @@
   }
 
   .start-sub {
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: #7a5228;
+    color: #9a7038;
     text-align: center;
     margin-bottom: 52px;
   }
@@ -176,10 +176,10 @@
   /* ---- Compass ---- */
   .compass-label {
     text-align: center;
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: #5a3a18;
+    color: #8a6030;
     margin-bottom: 10px;
   }
 
@@ -195,9 +195,9 @@
   .nav-btn {
     background: #0a0703;
     border: 1px solid #221608;
-    color: #9a7038;
+    color: #b08040;
     font-family: Georgia, serif;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 2px;
     text-transform: uppercase;
     cursor: pointer;
@@ -237,10 +237,10 @@
 
   .key-hint {
     text-align: center;
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #4a3018;
+    color: #7a5828;
   }
 
   /* ---- Win Screen ---- */
@@ -512,15 +512,15 @@
 
   .items-count {
     text-align: center;
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #3a2810;
+    color: #7a5828;
     margin-bottom: 18px;
     transition: color 0.3s;
   }
 
-  .items-count.ready { color: #7a5828; }
+  .items-count.ready { color: #c4903a; }
 
 /* ---- Inventory Display ---- */
 #inventory-display {
@@ -529,28 +529,50 @@
   left: 14px;
   display: none;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   pointer-events: none;
 }
 .inv-label {
-  font-size: 8px;
-  letter-spacing: 3px;
+  font-size: 10px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: #3a2410;
+  color: #7a5828;
   margin-bottom: 2px;
   font-family: Georgia, serif;
 }
-.inv-item {
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: #5a3c18;
-  font-family: Georgia, serif;
-  line-height: 1.5;
+.inv-items-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-.inv-item.bonus { color: #9a7038; }
+.inv-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #a07840;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+.inv-item.bonus { color: #c4903a; }
+.inv-icon {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #3a2410;
+  background: rgba(8, 5, 2, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.inv-item.bonus .inv-icon {
+  border-color: #6a4820;
+}
 
 .familiar-notice {
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: transparent;
@@ -559,7 +581,7 @@
   text-align: right;
   transition: color 0.6s;
 }
-.familiar-notice.visible { color: #3a2810; }
+.familiar-notice.visible { color: #9a7038; }
 
 /* ---- Mini Map ---- */
 #minimap-display {
@@ -573,10 +595,10 @@
   pointer-events: none;
 }
 .minimap-label {
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #2a4a3a;
+  color: #3a7058;
   font-family: Georgia, serif;
 }
 #minimap-canvas {
@@ -585,9 +607,9 @@
 }
 
 .death-hint {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.8;
-  color: #4a1010;
+  color: #7a2010;
   font-style: italic;
   text-align: center;
   max-width: 460px;
@@ -608,10 +630,10 @@
   z-index: 100;
 }
 .timing-prompt {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: #9a7038;
+  color: #c4903a;
   font-family: Georgia, serif;
 }
 .timing-track {
@@ -645,11 +667,33 @@
   background: #d4a850;
   box-shadow: 0 0 6px rgba(212, 168, 80, 0.6);
 }
-.timing-sub {
+/* ---- Quick Restart ---- */
+#quick-restart {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  border: none;
+  color: #3a2410;
+  font-family: Georgia, serif;
   font-size: 9px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #3a2810;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: color 0.2s;
+  display: none;
+  pointer-events: auto;
+  z-index: 10;
+}
+#quick-restart:hover { color: #7a5020; }
+
+.timing-sub {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #7a5828;
   font-family: Georgia, serif;
 }
 </style>
@@ -732,10 +776,13 @@
   <button class="action-btn blood" id="restart-btn">Start Over</button>
 </div>
 
+<!-- Quick Restart -->
+<button id="quick-restart">↺ Restart</button>
+
 <!-- Inventory Display -->
 <div id="inventory-display">
-  <p class="inv-label">Carrying</p>
-  <div id="inv-list"></div>
+  <p class="inv-label">Inventory</p>
+  <div class="inv-items-row" id="inv-list"></div>
 </div>
 
 <!-- Mini Map -->
@@ -857,24 +904,30 @@
 
   // ── Inventory Display ─────────────────────────────────────────
 
+  const ITEM_ICONS = {
+    'water-bucket':  '🪣', 'lava-bucket':   '🌋', 'file':          '🗂',
+    'night-vision':  '🥽', 'water-paddles': '🏊', 'health-potion': '🧪',
+    'flashlight':    '🔦', 'ember-claw':    '🔥', 'deep-pearl':    '🔮',
+    'chest-shard':   '⚡',
+  };
+
   function updateInventoryDisplay() {
     const el = document.getElementById('inventory-display');
     const list = document.getElementById('inv-list');
     list.innerHTML = '';
     inventory.forEach(id => {
       const item = ITEMS.find(i => i.id === id);
-      if (item) {
-        const p = document.createElement('p');
-        p.className = 'inv-item';
-        p.textContent = '· ' + item.name;
-        list.appendChild(p);
-      }
+      if (!item) return;
+      const row = document.createElement('div');
+      row.className = 'inv-item';
+      row.innerHTML = `<div class="inv-icon">${ITEM_ICONS[id] || '·'}</div><span>${item.name}</span>`;
+      list.appendChild(row);
     });
     bonusInventory.forEach(id => {
-      const p = document.createElement('p');
-      p.className = 'inv-item bonus';
-      p.textContent = '✦ ' + bonusItemNames[id];
-      list.appendChild(p);
+      const row = document.createElement('div');
+      row.className = 'inv-item bonus';
+      row.innerHTML = `<div class="inv-icon">${ITEM_ICONS[id] || '✦'}</div><span>${bonusItemNames[id]}</span>`;
+      list.appendChild(row);
     });
     el.style.display = inventory.size > 0 ? 'flex' : 'none';
   }
@@ -1529,7 +1582,7 @@
           descEl.textContent = ROOMS.pool.description;
           descEl.classList.remove('fading');
           document.getElementById('timing-prompt').textContent = 'Use your item — strike now';
-          startTimingBar(0.0032, () => {
+          startTimingBar(0.0016, () => {
             let txt;
             if (inventory.has('lava-bucket')) txt = 'You pour the lava bucket into the pool. The water erupts in a column of steam. The demon surfaces — then goes still. The pool turns grey and silent.';
             else if (inventory.has('water-paddles')) txt = 'You strap on the paddles and push through the water. The demon coils below but can\'t get a grip. You make it back to shore.';
@@ -1570,7 +1623,7 @@
           descEl.textContent = ROOMS.square.description;
           descEl.classList.remove('fading');
           document.getElementById('timing-prompt').textContent = 'Hurl the bucket — now or never';
-          startTimingBar(0.0028, () => {
+          startTimingBar(0.0014, () => {
             descEl.classList.add('fading');
             setTimeout(() => {
               descEl.textContent = 'You hurl the water bucket at the demon. The fire dies with a sound like a thunderclap. The creature collapses into a heap of smoking ash. The air clears.';
@@ -1606,7 +1659,7 @@
           descEl.textContent = ROOMS.descent.description;
           descEl.classList.remove('fading');
           document.getElementById('timing-prompt').textContent = 'Dodge the beam — move';
-          startTimingBar(0.0038, () => {
+          startTimingBar(0.0019, () => {
             let txt;
             if (inventory.has('night-vision')) txt = 'The goggles light up the dark. You see the seam split a half-second before it fires. You dive behind a column. The beam scorches rock. You sprint north.';
             else txt = 'You shine the flashlight at the Warden. It recoils — pale eyes shut, chest-seam turning away. You sprint north before it recovers.';
@@ -1645,7 +1698,7 @@
           descEl.textContent = ROOMS.pit.description;
           descEl.classList.remove('fading');
           document.getElementById('timing-prompt').textContent = 'Pour the potion — do it now';
-          startTimingBar(0.0025, () => {
+          startTimingBar(0.00125, () => {
             descEl.classList.add('fading');
             setTimeout(() => {
               descEl.textContent = 'You uncork the potion and hurl it at the shape in the dark. The rot pulls back. The eyes clear. A man stands in the pit, blinking. He follows you up.';
@@ -1724,6 +1777,7 @@
     updateDemonTracker();
     updateInventoryDisplay();
     showScreen('game-screen');
+    document.getElementById('quick-restart').style.display = 'block';
     startWind();
     startDrips();
   }
@@ -1744,6 +1798,18 @@
     ROOMS.pool.exits.s = undefined;
     ROOMS.pit.exits.n = undefined;
     document.getElementById('inventory-display').style.display = 'none';
+    document.getElementById('quick-restart').style.display = 'none';
+    showScreen('start-screen');
+  });
+
+  document.getElementById('quick-restart').addEventListener('click', () => {
+    gameActive = false;
+    clearDeathTimers(); stopTimingBar();
+    stopWind(); stopDrips();
+    ROOMS.pool.exits.s = undefined;
+    ROOMS.pit.exits.n = undefined;
+    document.getElementById('inventory-display').style.display = 'none';
+    document.getElementById('quick-restart').style.display = 'none';
     showScreen('start-screen');
   });
 
@@ -1754,6 +1820,7 @@
     ROOMS.pool.exits.s = undefined;
     ROOMS.pit.exits.n = undefined;
     document.getElementById('inventory-display').style.display = 'none';
+    document.getElementById('quick-restart').style.display = 'none';
     showScreen('start-screen');
   });
 
